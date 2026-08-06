@@ -1,3 +1,8 @@
+## 交流约定
+
+- 主要使用中文交流。
+- 技术名词与专业名词保留原文，不翻译成中文（如 gRPC、BFF、MikroORM、RBAC 等）。
+
 ## Agent skills
 
 ### Issue tracker
