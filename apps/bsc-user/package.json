@@ -1,0 +1,9 @@
+{
+  "name": "bsc-user",
+  "version": "0.0.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "nx": {
+    "tags": ["scope:bsc-user", "type:bsc", "domain:user"]
+  }
+}

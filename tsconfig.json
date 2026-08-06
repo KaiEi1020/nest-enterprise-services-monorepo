@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "paths": {
+      "@enterprise/contracts": ["libs/contracts/src"],
+      "@enterprise/contracts/*": ["libs/contracts/src/*"],
+      "@enterprise/platform": ["libs/platform/src"],
+      "@enterprise/platform/*": ["libs/platform/src/*"]
+    }
+  }
+}

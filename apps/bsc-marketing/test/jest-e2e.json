@@ -1,0 +1,13 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": ["ts-jest", { "tsconfig": "<rootDir>/../tsconfig.spec.json" }]
+  },
+  "moduleNameMapper": {
+    "^@enterprise/contracts(|/.*)$": "<rootDir>/../../../libs/contracts/src/$1",
+    "^@enterprise/platform(|/.*)$": "<rootDir>/../../../libs/platform/src/$1"
+  }
+}

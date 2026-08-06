@@ -1,0 +1,45 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "bsc-marketing",
+  "projectType": "application",
+  "sourceRoot": "apps/bsc-marketing/src",
+  "tags": ["scope:bsc-marketing", "type:bsc", "domain:marketing"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nest build bsc-marketing",
+        "cwd": "{workspaceRoot}"
+      },
+      "outputs": ["{workspaceRoot}/dist/apps/bsc-marketing"]
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nest start bsc-marketing --watch",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p apps/bsc-marketing/tsconfig.app.json --noEmit",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint \"apps/bsc-marketing/**/*.ts\"",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "jest --config apps/bsc-marketing/test/jest.config.ts",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}

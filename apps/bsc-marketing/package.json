@@ -1,0 +1,9 @@
+{
+  "name": "bsc-marketing",
+  "version": "0.0.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "nx": {
+    "tags": ["scope:bsc-marketing", "type:bsc", "domain:marketing"]
+  }
+}

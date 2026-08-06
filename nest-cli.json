@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "compilerOptions": {
+    "deleteOutDir": true
+  },
+  "monorepo": true,
+  "projects": {
+    "bff-admin": {
+      "type": "application",
+      "root": "apps/bff-admin",
+      "entryFile": "main",
+      "sourceRoot": "apps/bff-admin/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bff-admin/tsconfig.app.json"
+      }
+    },
+    "bff-student": {
+      "type": "application",
+      "root": "apps/bff-student",
+      "entryFile": "main",
+      "sourceRoot": "apps/bff-student/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bff-student/tsconfig.app.json"
+      }
+    },
+    "bsc-marketing": {
+      "type": "application",
+      "root": "apps/bsc-marketing",
+      "entryFile": "main",
+      "sourceRoot": "apps/bsc-marketing/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bsc-marketing/tsconfig.app.json"
+      }
+    },
+    "bsc-user": {
+      "type": "application",
+      "root": "apps/bsc-user",
+      "entryFile": "main",
+      "sourceRoot": "apps/bsc-user/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bsc-user/tsconfig.app.json"
+      }
+    },
+    "contracts": {
+      "type": "library",
+      "root": "libs/contracts",
+      "entryFile": "index",
+      "sourceRoot": "libs/contracts/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/contracts/tsconfig.lib.json"
+      }
+    },
+    "platform": {
+      "type": "library",
+      "root": "libs/platform",
+      "entryFile": "index",
+      "sourceRoot": "libs/platform/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/platform/tsconfig.lib.json"
+      }
+    }
+  }
+}

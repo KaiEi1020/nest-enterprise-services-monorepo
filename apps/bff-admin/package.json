@@ -1,0 +1,9 @@
+{
+  "name": "bff-admin",
+  "version": "0.0.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "nx": {
+    "tags": ["scope:bff-admin", "type:bff"]
+  }
+}

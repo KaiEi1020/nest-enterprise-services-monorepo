@@ -1,0 +1,5 @@
+# pnpm workspace
+# Nest CLI generates applications under apps/ and libraries under libs/.
+packages:
+  - "apps/*"
+  - "libs/*"

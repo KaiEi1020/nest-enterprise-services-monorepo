@@ -1,0 +1,10 @@
+{
+  "name": "@enterprise/contracts",
+  "version": "0.0.1",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "nx": {
+    "tags": ["scope:shared", "type:contract"]
+  }
+}

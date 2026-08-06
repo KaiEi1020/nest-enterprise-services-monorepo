@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package enterprise.marketing.v1;
+
+// Backwards-compatible marketing contract owned by @enterprise/contracts.
+// Future fields must be appended; never remove or renumber existing ones.
+service MarketingService {
+  rpc ListCampaigns(ListCampaignsRequest) returns (ListCampaignsResponse) {}
+}
+
+message ListCampaignsRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message Campaign {
+  string campaign_id = 1;
+  string name = 2;
+  string status = 3;
+}
+
+message ListCampaignsResponse {
+  repeated Campaign campaigns = 1;
+  string next_page_token = 2;
+}

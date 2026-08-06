@@ -1,0 +1,42 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "@enterprise/contracts",
+  "projectType": "library",
+  "sourceRoot": "libs/contracts/src",
+  "tags": ["scope:shared", "type:contract"],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "tsc -p libs/contracts/tsconfig.lib.json",
+          "cpx \"libs/contracts/proto/**/*\" dist/libs/contracts/proto"
+        ],
+        "parallel": false,
+        "cwd": "{workspaceRoot}"
+      },
+      "outputs": ["{workspaceRoot}/dist/libs/contracts"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p libs/contracts/tsconfig.lib.json --noEmit",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint \"libs/contracts/**/*.ts\"",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "jest --config libs/contracts/jest.config.ts",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}

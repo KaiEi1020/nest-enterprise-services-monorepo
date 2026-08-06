@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package enterprise.user.v1;
+
+// Backwards-compatible identity contract owned by @enterprise/contracts.
+// Future fields must be appended; never remove or renumber existing ones.
+service UserService {
+  rpc GetUser(GetUserRequest) returns (User) {}
+}
+
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message User {
+  string user_id = 1;
+  string username = 2;
+  bool active = 3;
+}
