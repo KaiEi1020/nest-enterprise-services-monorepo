@@ -27,3 +27,4 @@
 - BFF 负责用户级 RBAC；BSC 必须验证资源归属与领域不变量。
 - 禁止跨领域导入内部实现或跨库访问；共享包不得包含领域模型与业务逻辑。
 - 对外接口使用 `/api/v1` REST 与 OpenAPI；gRPC Proto 变更必须保持向后兼容。
+- 领域模块位于 `src/<domain>/`，内部固定为 api/application/domain/infrastructure 四层；目录统一用复数命名。结构约定见 `docs/adr/0007-domain-module-directory-layout.md`。

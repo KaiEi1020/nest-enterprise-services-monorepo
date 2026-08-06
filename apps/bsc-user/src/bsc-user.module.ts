@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { PlatformModule } from '@enterprise/platform';
+import { IdentityModule } from './identity/identity.module';
 
 /**
  * bsc-user root module. Composes the User domain module with the shared
@@ -9,6 +10,6 @@ import { PlatformModule } from '@enterprise/platform';
  * bsc-marketing (ADR-0006).
  */
 @Module({
-  imports: [PlatformModule, UserModule],
+  imports: [PlatformModule, UserModule, IdentityModule],
 })
 export class BscUserModule {}

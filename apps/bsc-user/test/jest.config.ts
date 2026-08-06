@@ -6,7 +6,10 @@ const config: Config = {
   rootDir: '..',
   roots: ['<rootDir>/src'],
   testRegex: '.*\\.spec\\.ts$',
-  moduleNameMapper: baseConfig.moduleNameMapper,
+  moduleNameMapper: {
+    '^@enterprise/contracts(|/.*)$': '<rootDir>/../../libs/contracts/src/$1',
+    '^@enterprise/platform(|/.*)$': '<rootDir>/../../libs/platform/src/$1',
+  },
 };
 
 export default config;

@@ -61,3 +61,8 @@ _Avoid_: 业务中台、客户端 BFF
 
 **业务中台**：拥有具体业务流程与领域规则、并可依赖基础中台能力的 BSC；`bsc-marketing` 负责营销活动、奖品与兑换。
 _Avoid_: 基础中台、BFF
+
+## 代码组织
+
+**领域模块**：BSC 内部按领域拆分的代码单元，位于 `src/<domain>/`，内部固定分为 api、application、domain、infrastructure 四层；目录统一用复数命名（如 `controllers`、`value-objects`）。详见 `docs/adr/0007-domain-module-directory-layout.md`。
+_Avoid_: 按技术类型平铺的目录、单数或缩写目录名（`controller`、`vos`）

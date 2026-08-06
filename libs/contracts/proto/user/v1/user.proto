@@ -6,6 +6,8 @@ package enterprise.user.v1;
 // Future fields must be appended; never remove or renumber existing ones.
 service UserService {
   rpc GetUser(GetUserRequest) returns (User) {}
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc Refresh(RefreshRequest) returns (RefreshResponse) {}
 }
 
 message GetUserRequest {
@@ -16,4 +18,32 @@ message User {
   string user_id = 1;
   string username = 2;
   bool active = 3;
+}
+
+// Identity contract. Bad credentials surface as a gRPC UNAUTHENTICATED status
+// so the response never reveals whether the account exists.
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  TokenPair tokens = 1;
+}
+
+message RefreshRequest {
+  string refresh_token = 1;
+}
+
+message RefreshResponse {
+  TokenPair tokens = 1;
+}
+
+message TokenPair {
+  string access_token = 1;
+  // Seconds from issuance until the access token expires.
+  int64 access_token_expires_in = 2;
+  string refresh_token = 3;
+  // Seconds from issuance until the refresh token expires.
+  int64 refresh_token_expires_in = 4;
 }

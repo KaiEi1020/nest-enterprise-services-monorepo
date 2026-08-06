@@ -4,6 +4,13 @@
   "private": true,
   "license": "UNLICENSED",
   "nx": {
-    "tags": ["scope:bsc-user", "type:bsc", "domain:user"]
+    "tags": [
+      "scope:bsc-user",
+      "type:bsc",
+      "domain:user"
+    ]
+  },
+  "dependencies": {
+    "@nestjs/cqrs": "^11.0.3"
   }
 }
