@@ -1,6 +1,6 @@
-# 企业服务平台（NestJS BFF/BSC Monorepo）
+# 企业级 NestJS 微服务三层架构（BFF - 业务 BSC - 基础 BSC）
 
-Nx 管理的 NestJS Monorepo，承载面向多客户端的企业服务平台基线：BFF 负责客户端编排与用户级 RBAC，BSC 独占领域数据与不变量。架构边界与决策记录在 `CONTEXT.md` 与 `docs/adr/0001`–`docs/adr/0006`。
+Nx 管理的 NestJS Monorepo，演示企业级微服务三层架构基线：BFF 负责客户端编排与用户级 RBAC，业务 BSC 承载业务领域，基础 BSC 提供身份等基础能力；各 BSC 独占领域数据与不变量。架构边界与决策记录在 `CONTEXT.md` 与 `docs/adr/`。
 
 ## 目录结构
 
@@ -8,8 +8,8 @@ Nx 管理的 NestJS Monorepo，承载面向多客户端的企业服务平台基�
 apps/
   bff-admin/      管理后台 BFF（无状态，无 MikroORM）
   bff-student/    学生端 BFF（无状态，无 MikroORM）
-  bsc-user/       基础中台：身份、RBAC、积分余额
-  bsc-marketing/  业务中台：营销活动、奖品、兑换
+  bsc-user/       基础 BSC：身份、RBAC、积分余额
+  bsc-marketing/  业务 BSC：营销活动、奖品、兑换
 libs/
   contracts/      共享 gRPC 协议契约（仅 proto 与加载配置，禁止领域逻辑）
   platform/       共享技术能力（健康检查等，禁止领域逻辑）
