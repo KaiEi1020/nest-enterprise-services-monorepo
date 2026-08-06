@@ -29,9 +29,9 @@
 │   └── services/                      # 是可选的，只有出现多个 Handler 需要共享同一段应用层编排逻辑时才创建
 │       └── notification.service.ts
 ├── domain/
-│   ├── aggregates/
+│   ├── aggregates/                    # 聚合根 + 聚合业务入口（放业务一致性边界）
 │   │   └── user.aggregate.ts
-│   ├── entities/
+│   ├── entities/                      # 聚合内部实体，或者简单实体（放业务对象）
 │   │   └── user.entity.ts
 │   ├── value-objects/
 │   │   ├── email.vo.ts
