@@ -4,7 +4,7 @@
 
 **Blocked by:** 01 — Nx Monorepo 基线
 
-**Status:** claimed
+**Status:** resolved
 
 - [x] 用户可凭账号密码通过 `bsc-user` gRPC 登录并获得非对称签名的 access token 与 refresh token
 - [x] refresh token 可轮换换取新的 access token，旧 refresh token 失效
