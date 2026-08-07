@@ -30,6 +30,9 @@ _Avoid_: 用户资料、账号资料
 **RBAC**：以角色授予权限的用户级访问控制，由 BFF 根据 `bsc-user` 管理的角色与权限执行。
 _Avoid_: 领域不变量、资源归属
 
+**用户标识**：当前在各聚合中以裸 `string` 持有（如 `User.id`、`UserCredential.userId`），未抽象为值对象。当需要校验、类型安全或跨 BSC 引用时，提为值对象并放入 `@enterprise/platform` 的 shared kernel（与 `UserRole` 同层），而非任何 BSC 的 `src/shared/`。
+_Avoid_: 提前抽象、放入 bsc-user 内部共享目录
+
 **资源归属**：某主体是否有权访问或变更某个领域资源的事实，由拥有该资源的 BSC 验证。
 _Avoid_: 网关鉴权、BFF 页面权限
 
@@ -64,5 +67,8 @@ _Avoid_: 基础中台、BFF
 
 ## 代码组织
 
-**领域模块**：BSC 内部按领域拆分的代码单元，位于 `src/<domain>/`，内部固定分为 api、application、domain、infrastructure 四层；目录统一用复数命名（如 `controllers`、`value-objects`）。详见 `docs/adr/0007-domain-module-directory-layout.md`。
-_Avoid_: 按技术类型平铺的目录、单数或缩写目录名（`controller`、`vos`）
+**领域模块**：BSC 内部按领域拆分的代码单元，位于 `src/<domain>/`，内部固定分为 api、application、domain、infrastructure 四层；目录统一用复数命名（如 `controllers`、`value-objects`、`vocabulary`）。详见 `docs/adr/0007-domain-module-directory-layout.md`。
+
+**领域词汇**：单个领域拥有的枚举、状态和业务分类放在 `<domain>/domain/vocabulary/`；具有校验、不变量、标准化或相等性语义的类型放在 `<domain>/domain/value-objects/`。只有多个领域或服务共同认可且语义稳定的无行为词汇或标识符，才放入 `libs/platform/src/shared-kernel/vocabulary/` 或 `identifiers/`。Proto enum 与 RocketMQ event payload 属于 `libs/contracts/`，由适配层映射为领域类型；禁止建立泛化的 `src/shared/`。
+_Avoid_: 按技术类型平铺的目录、单数或缩写目录名（`controller`、`vos`）、将所有 enum 放入 shared kernel。
+
