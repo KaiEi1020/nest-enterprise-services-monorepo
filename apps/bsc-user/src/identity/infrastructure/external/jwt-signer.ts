@@ -6,7 +6,7 @@ import {
   verify,
 } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
-import { UserRole } from '../../domain/value-objects/user-role.vo';
+import { UserRole } from '@enterprise/platform';
 
 export interface AccessTokenClaims {
   sub: string;

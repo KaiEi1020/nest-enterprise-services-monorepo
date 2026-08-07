@@ -36,6 +36,8 @@
 │   ├── value-objects/
 │   │   ├── email.vo.ts
 │   │   └── password.vo.ts
+│   ├── vocabulary/                    # 单领域枚举、状态和业务分类
+│   │   └── user-status.ts
 │   ├── repositories/                  # 仓储接口（实现在 infrastructure）
 │   │   └── user.repository.ts
 │   ├── events/                        # 领域事件
@@ -61,7 +63,9 @@
 
 ### 目录
 
-目录统一用复数：`controllers`、`dto`、`presenters`、`commands`、`queries`、`events`、`services`、`value-objects`、`entities`、`aggregates`、`repositories`、`exceptions`、`schemas`、`migrations`。废弃单数与缩写别名：`controller`、`service`（泛指 application 层目录）、`use-case`、`vos`、`repository`。
+目录统一用复数：`controllers`、`dto`、`presenters`、`commands`、`queries`、`events`、`services`、`value-objects`、`vocabulary`、`entities`、`aggregates`、`repositories`、`exceptions`、`schemas`、`migrations`。废弃单数与缩写别名：`controller`、`service`（泛指 application 层目录）、`use-case`、`vo`、`vos`、`repository`。
+
+`domain/vocabulary/` 仅用于当前领域拥有的枚举、状态和业务分类；它不承载业务行为。具有校验、不变量、标准化或相等性语义的类型放入 `domain/value-objects/`。只有多个领域或服务共同认可且语义稳定的无行为词汇或标识符，才放入 `libs/platform/src/shared-kernel/vocabulary/` 或 `identifiers/`；Proto enum 和 RocketMQ event payload 属于 `libs/contracts/`。并非所有 enum 都应放入 shared kernel。严格禁止为领域专属类型建立泛化的 `src/shared/` 目录。 
 
 ### 文件
 

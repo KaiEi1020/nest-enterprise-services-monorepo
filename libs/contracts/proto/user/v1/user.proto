@@ -8,6 +8,13 @@ service UserService {
   rpc GetUser(GetUserRequest) returns (User) {}
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Refresh(RefreshRequest) returns (RefreshResponse) {}
+
+  // Admin user-management domain actions (issue 03).
+  rpc CreateUser(CreateUserRequest) returns (User) {}
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {}
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (User) {}
+  rpc SetUserActive(SetUserActiveRequest) returns (User) {}
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
 }
 
 message GetUserRequest {
@@ -18,6 +25,12 @@ message User {
   string user_id = 1;
   string username = 2;
   bool active = 3;
+  // Appended for user management; empty/0 when the field predates a record.
+  string email = 4;
+  string role = 5;
+  bool deleted = 6;
+  int64 created_at = 7;
+  int64 updated_at = 8;
 }
 
 // Identity contract. Bad credentials surface as a gRPC UNAUTHENTICATED status
@@ -46,4 +59,56 @@ message TokenPair {
   string refresh_token = 3;
   // Seconds from issuance until the refresh token expires.
   int64 refresh_token_expires_in = 4;
+}
+
+// User management contract (issue 03). Conflict on duplicate username/email
+// surfaces as ALREADY_EXISTS; a missing user surfaces as NOT_FOUND.
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+  string role = 4;
+}
+
+// Reusable pagination request envelope, shared by every list action.
+// Requests carry a nested `page` message; responses carry total + list +
+// has_next (see ListUsersResponse and the shared pagination helper in
+// @enterprise/contracts).
+message PageRequest {
+  // 1-based page number; values below 1 are treated as page 1.
+  int32 current_page = 1;
+  // Page size; values below 1 fall back to the service default.
+  int32 page_size = 2;
+}
+
+message ListUsersRequest {
+  PageRequest page = 1;
+}
+
+message ListUsersResponse {
+  // The records on the current page, using the platform-wide list field.
+  repeated User list = 1;
+  int64 total = 2;
+  // Whether at least one more page exists after this one.
+  bool has_next = 3;
+}
+
+message UpdateUserProfileRequest {
+  string user_id = 1;
+  // Empty fields are left unchanged.
+  string username = 2;
+  string email = 3;
+}
+
+message SetUserActiveRequest {
+  string user_id = 1;
+  bool active = 2;
+}
+
+message DeleteUserRequest {
+  string user_id = 1;
+}
+
+message DeleteUserResponse {
+  bool deleted = 1;
 }

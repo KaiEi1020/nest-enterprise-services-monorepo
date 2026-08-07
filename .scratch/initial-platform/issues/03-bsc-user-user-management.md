@@ -15,5 +15,5 @@
 ## Comments
 
 - 实现说明（2026-08-06）：按 ADR-0007 将 user 模块迁移至 api/application/domain/infrastructure 四层及复数目录；追加 `CreateUser`、`ListUsers`、`GetUser`、`UpdateUserProfile`、`SetUserActive`、`DeleteUser` gRPC 领域动作。用户与认证凭证通过 `UnitOfWork` 原子提交，重复用户名/邮箱映射为 `ALREADY_EXISTS`，缺失用户映射为 `NOT_FOUND`，删除为软删除并同步停用凭证。
-- 分页统一放入 `@enterprise/contracts` Shared Kernel 风格的 `PageRequest`/`PaginatedRequest`/`PageResponse<T>`，gRPC 入参为 `page: { currentPage, pageSize }`，出参为 `total`、`list`、`hasNext`；`UserRole` 放入 `@enterprise/platform` 的 Shared Kernel，避免 user 与 identity 互相导入内部实现。
+- 分页统一放入 `@enterprise/contracts` 的 `PageRequest`/`PaginatedRequest`/`PageResponse<T>`，gRPC 入参为 `page: { currentPage, pageSize }`，出参为 `total`、`list`、`hasNext`；`UserRole` 放入 `@enterprise/platform` 的 `shared-kernel/vocabulary`，作为跨领域无行为共享词汇，避免 user 与 identity 互相导入内部实现。
 - 测试说明：bsc-user gRPC 接缝覆盖创建、分页、详情、资料更新、状态切换、软删除、重复用户名/邮箱、非法输入与缺失用户；额外覆盖 UnitOfWork 失败回滚。全仓库 `test`、`typecheck`、`lint` 均通过。

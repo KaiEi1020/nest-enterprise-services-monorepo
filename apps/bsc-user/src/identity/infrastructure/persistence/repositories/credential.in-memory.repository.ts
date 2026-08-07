@@ -5,7 +5,7 @@ import {
 } from '../../../domain/entities/user-credential.entity';
 import { CredentialRepository } from '../../../domain/repositories/credential.repository';
 import { PasswordHash } from '../../../domain/value-objects/password-hash.vo';
-import { UserRole } from '../../../domain/value-objects/user-role.vo';
+import { UserRole } from '@enterprise/platform';
 
 /**
  * CredentialRepository implementation for bsc-user (ADR-0002). The concrete
@@ -23,14 +23,22 @@ export class CredentialInMemoryRepository extends CredentialRepository {
   private readonly credentialsById = new Map<string, UserCredential>();
   private readonly refreshTokens = new Map<string, RefreshToken>();
 
+  private staging: Map<string, UserCredential> | null = null;
+
   async findActiveByUsername(username: string): Promise<UserCredential | null> {
+    const staged = this.staging?.get(username);
+    if (staged) return staged.active ? staged : null;
     const credential = this.credentialsByUsername.get(username);
     return credential && credential.active ? credential : null;
   }
 
   async findActiveById(userId: string): Promise<UserCredential | null> {
-    const credential = this.credentialsById.get(userId);
-    return credential && credential.active ? credential : null;
+    for (const credential of this.visibleCredentials()) {
+      if (credential.userId === userId) {
+        return credential.active ? credential : null;
+      }
+    }
+    return null;
   }
 
   async saveRefreshToken(token: RefreshToken): Promise<void> {
@@ -44,10 +52,39 @@ export class CredentialInMemoryRepository extends CredentialRepository {
     return token;
   }
 
+  async saveCredential(credential: UserCredential): Promise<void> {
+    if (this.staging) {
+      this.staging.set(credential.username, credential);
+      return;
+    }
+    this.commitOne(credential);
+  }
+
+  async setCredentialActive(userId: string, active: boolean): Promise<void> {
+    const credential = this.credentialsById.get(userId);
+    if (credential) credential.active = active;
+  }
+
+  /** Opens a staging scope: subsequent saves accumulate without committing. */
+  beginStaging(): void {
+    this.staging = new Map();
+  }
+
+  /** Flushes staged credentials into the committed store. */
+  commitStaging(): void {
+    if (!this.staging) return;
+    for (const credential of this.staging.values()) this.commitOne(credential);
+    this.staging = null;
+  }
+
+  /** Discards staged credentials without committing them. */
+  discardStaging(): void {
+    this.staging = null;
+  }
+
   /** Test/seed helper: register a credential without going through migrations. */
   async seedCredential(credential: UserCredential): Promise<void> {
-    this.credentialsByUsername.set(credential.username, credential);
-    this.credentialsById.set(credential.userId, credential);
+    await this.saveCredential(credential);
   }
 
   /** Test/seed helper: create and register a credential from a plaintext password. */
@@ -66,5 +103,20 @@ export class CredentialInMemoryRepository extends CredentialRepository {
     );
     await this.seedCredential(credential);
     return credential;
+  }
+
+  private commitOne(credential: UserCredential): void {
+    this.credentialsByUsername.set(credential.username, credential);
+    this.credentialsById.set(credential.userId, credential);
+  }
+
+  private *visibleCredentials(): Iterable<UserCredential> {
+    const merged = new Map<string, UserCredential>(this.credentialsByUsername);
+    if (this.staging) {
+      for (const [username, credential] of this.staging) {
+        merged.set(username, credential);
+      }
+    }
+    yield* merged.values();
   }
 }

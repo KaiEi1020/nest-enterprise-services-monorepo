@@ -1,5 +1,5 @@
 import { PasswordHash } from '../value-objects/password-hash.vo';
-import { UserRole } from '../value-objects/user-role.vo';
+import { UserRole } from '@enterprise/platform';
 
 /**
  * Credential aggregate for the identity domain (ADR-0004). bsc-user owns
@@ -14,7 +14,7 @@ export class UserCredential {
     public readonly username: string,
     public readonly passwordHash: PasswordHash,
     public readonly role: UserRole,
-    public readonly active: boolean,
+    public active: boolean,
   ) {}
 }
 

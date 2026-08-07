@@ -4,6 +4,7 @@ import { IdentityGrpcController } from './api/controllers/identity.grpc-controll
 import { LoginHandler } from './application/commands/login/login.handler';
 import { RefreshTokenHandler } from './application/commands/refresh-token/refresh-token.handler';
 import { TokenIssuer } from './application/services/token-issuer.service';
+import { IdentityUserManagementService } from './application/services/identity-user-management.service';
 import { CredentialRepository } from './domain/repositories/credential.repository';
 import { JwtSigner } from './infrastructure/external/jwt-signer';
 import { CredentialInMemoryRepository } from './infrastructure/persistence/repositories/credential.in-memory.repository';
@@ -21,12 +22,13 @@ import { CredentialInMemoryRepository } from './infrastructure/persistence/repos
     LoginHandler,
     RefreshTokenHandler,
     TokenIssuer,
+    IdentityUserManagementService,
     JwtSigner,
     {
       provide: CredentialRepository,
       useClass: CredentialInMemoryRepository,
     },
   ],
-  exports: [CredentialRepository, JwtSigner],
+  exports: [CredentialRepository, JwtSigner, IdentityUserManagementService],
 })
 export class IdentityModule {}

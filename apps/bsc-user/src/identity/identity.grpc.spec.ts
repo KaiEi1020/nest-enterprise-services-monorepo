@@ -6,7 +6,7 @@ import { ContractsService } from '@enterprise/contracts';
 import { IdentityModule } from './identity.module';
 import { CredentialRepository } from './domain/repositories/credential.repository';
 import { CredentialInMemoryRepository } from './infrastructure/persistence/repositories/credential.in-memory.repository';
-import { UserRole } from './domain/value-objects/user-role.vo';
+import { UserRole } from '@enterprise/platform';
 import { status } from '@grpc/grpc-js';
 
 interface TokenPairResponse {

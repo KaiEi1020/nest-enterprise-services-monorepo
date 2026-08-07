@@ -2,7 +2,7 @@ import { randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { RefreshToken } from '../../domain/entities/user-credential.entity';
 import { CredentialRepository } from '../../domain/repositories/credential.repository';
-import { UserRole } from '../../domain/value-objects/user-role.vo';
+import { UserRole } from '@enterprise/platform';
 import {
   AccessTokenClaims,
   JwtSigner,
