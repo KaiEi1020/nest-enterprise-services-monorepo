@@ -12,7 +12,7 @@ apps/
   bsc-marketing/  业务 BSC：营销活动、奖品、兑换
 libs/
   contracts/      共享 gRPC 协议契约（仅 proto 与加载配置，禁止领域逻辑）
-  platform/       共享技术能力（健康检查等，禁止领域逻辑）
+  platform/       共享技术能力与受限 Shared Kernel（健康检查、稳定业务词汇等）
 test/
   architecture-guardrails.spec.ts  架构边界回归测试
 ```
@@ -43,11 +43,16 @@ pnpm graph
 
 - BFF 不引入 MikroORM 或业务数据库（ADR-0002）；由 ESLint `no-restricted-imports` 在 `apps/bff-*/src` 强制。
 - BSC 间不得互相导入内部实现，BFF 只能依赖共享包（ADR-0001）；由 Nx `@nx/enforce-module-boundaries` 的 `depConstraints` 强制。
-- 共享包仅含技术能力与协议契约，禁止领域模型与业务逻辑（ADR-0001）。
+- 共享包仅含技术能力、协议契约，以及仅存放稳定业务词汇与标识符的受限 Shared Kernel（ADR-0001）。
+- 前端应用可应用 DDD，将业务规则与 UI 逻辑分离；跨端稳定且无行为的业务知识与业务语言放入 `@enterprise/platform` 的 Shared Kernel，不共享完整领域模型、业务行为或服务边界。
 - 对外 REST 使用 `/api/v1` 与 OpenAPI；服务间同步用 gRPC，异步用 RocketMQ 领域事件（ADR-0003）。
 - `bsc-marketing` 可调用 `bsc-user`，反之禁止（ADR-0006）。
 
 边界回归见 `test/architecture-guardrails.spec.ts`，随 `pnpm test` 一并执行。
+
+## 前端 DDD 与 Shared Kernel
+
+前端 DDD 的核心是将业务规则与 UI 逻辑分离。在全栈化与 TypeScript Monorepo 场景下，可以进一步将跨端稳定的业务知识提取到 Shared Kernel，让前后端共享业务语言与部分无行为规则；但不要强行共享完整领域模型、领域行为或服务内部实现。
 
 ## 许可
 
